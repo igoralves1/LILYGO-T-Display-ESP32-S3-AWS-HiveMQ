@@ -10,12 +10,13 @@
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
 
-
 void connectAWS()
 {
   Serial.println("connectAWS Fn");
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+ 
   Serial.println("Connecting to Wi-Fi");
  
   while (WiFi.status() != WL_CONNECTED)
@@ -62,6 +63,7 @@ void publishMessage(char* status, int seconds)
   doc["time(s)"] = seconds;
   char jsonBuffer[512];
   serializeJson(doc, jsonBuffer); // print to client
+  // tft.drawString(String(jsonBuffer),15,74,3);
   client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
 }
  
@@ -76,7 +78,6 @@ void messageHandler(char* topic, byte* payload, unsigned int length)
   Serial.println(message);
 }
 
-
 const int relay4 = 16;
 int rele1 = 0;
 
@@ -90,23 +91,38 @@ void loop() {
 
   Serial.println("Desliga o motor");
   digitalWrite(relay4, HIGH);
-  for(int i = 1; i<=10; i++){
+  publishMessage("Motor Desligado", 0);  
+  client.loop();
+  for(int i = 1; i<=3600*2; i++){ //Set i<=28800 in PROD i<=10 in DEV
     Serial.println(i);
-    publishMessage("Motor Desigado", i);
-    client.loop();
+    if ( i  == 3600 ){
+      Serial.println("1h");  
+      publishMessage("Im_Alive", i);
+      client.loop();      
+    }
+    // if ( (i % 3600) == 0 ){
+    //   Serial.println("Multiplo de 3600");  
+    //   publishMessage("Im_Alive", i);
+    //   client.loop();      
+    // }
+    // publishMessage("Motor Desigado", i);
+    // client.loop();
     delay(1000);
   }
   
   Serial.println("Liga o motor");
   digitalWrite(relay4, LOW);
-  for(int i = 1; i<=5; i++){
+  for(int i = 1; i<=10; i++){
     Serial.println(i);
-    publishMessage("Motor Ligado", i);
-    client.loop();
+    if ( i  == 5 ){ 
+      publishMessage("Motor Ligado", i);  
+      client.loop();    
+    }
+    // publishMessage("Motor Ligado", i);
+    // client.loop();
     delay(1000);
   }
 
-  
   Serial.println("....");
 }
 
