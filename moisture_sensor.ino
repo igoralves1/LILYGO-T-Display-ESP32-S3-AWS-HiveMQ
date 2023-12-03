@@ -4,12 +4,6 @@
 #include "WiFi.h"
 #include <PubSubClient.h>
 
-// Connecting ESP32 to Amazon AWS IoT Core using MQTT
-// https://how2electronics.com/connecting-esp32-to-amazon-aws-iot-core-using-mqtt/ 
-// https://aws.amazon.com/blogs/compute/building-an-aws-iot-core-device-using-aws-serverless-and-an-esp32/
-// Location in Windows -> C:\Users\IgorA\OneDrive\Área de Trabalho\Arduino\moisture_sensor
-
-
 #define AWS_IOT_PUBLISH_TOPIC   "esp32/pub"
 #define AWS_IOT_SUBSCRIBE_TOPIC "esp32/sub"
  
@@ -20,10 +14,8 @@ PubSubClient client(net);
 void connectAWS()
 {
   Serial.println("connectAWS Fn");
-
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
- 
   Serial.println("Connecting to Wi-Fi");
  
   while (WiFi.status() != WL_CONNECTED)
@@ -70,7 +62,6 @@ void publishMessage(char* status, int seconds)
   doc["time(s)"] = seconds;
   char jsonBuffer[512];
   serializeJson(doc, jsonBuffer); // print to client
-  // tft.drawString(String(jsonBuffer),15,74,3);
   client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
 }
  
