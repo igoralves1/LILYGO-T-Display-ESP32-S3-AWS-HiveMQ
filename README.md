@@ -7,4 +7,4 @@
 5. [Automatic Irrigation](https://www.aliexpress.us/item/3256804642371142.html?spm=a2g0o.order_list.order_list_main.75.40891802e3ZNxU&gatewayAdapt=glo2usa)
 6. Location in Windows libraries ->C:\Users\IgorA\OneDrive\Área de Trabalho\Arduino\libraries
 7. [lib - PubSubClient.h](https://pubsubclient.knolleary.net)
-
+8. [googlechromelabs.github.io/serial-terminal](https://googlechromelabs.github.io/serial-terminal/)
