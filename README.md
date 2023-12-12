@@ -15,6 +15,16 @@
 13. [Arduino Client for MQTT](https://pubsubclient.knolleary.net/)
 14. [igoralves1/T-Display-S3/tree/main/firmware](https://github.com/igoralves1/T-Display-S3/tree/main/firmware)
 15. [Serial Monitor displays nothing. #126](https://github.com/Xinyuan-LilyGO/T-Display-S3/issues/126)
+    1.  > This is what I did if the `T-Display-S3` does not push data to the Serial Monitor:  
+            - Installed `ESPTOOL` -> `python3 -m pip install esptool`.  
+            - Clone repository and CD to the firmware folder -> https://github.com/igoralves1/T-Display-S3/tree/main/firmware where the `bootloader.bin` and `firmware.bin` files are located.   
+            - Ran the code -> `esptool.py --chip esp32s3 --baud 921600 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 80m --flash_size 16MB 0x0 bootloader.bin 0x8000 partitions.bin 0xe000 boot_app0.bin 0x10000 firmware.bin`.  
+            - At this point the Rainbow should be at the `T-Display-S3` board screen.  
+            - Opened the `ArduinoIDE` in any project and connected to the board port.  
+            - At this point Should have an output in the `ArduinoIDE` Serial Monitor.
+
+
+
 
 
 ### Arduino setup for ESP32
