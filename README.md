@@ -1,4 +1,4 @@
-# Connecting ESP32 to Amazon AWS IoT Core using MQTT
+# Connecting A LILYGO-T-Display-ESP32-S3 to an AWS IoT-Core and HiveMQ Cloud using MQTT POSTMAN Client
 
 1. [Connecting ESP32 to Amazon AWS IoT Core using MQTT](https://how2electronics.com/connecting-esp32-to-amazon-aws-iot-core-using-mqtt)
 2. [Building an AWS IoT Core device using AWS Serverless and an ESP32](https://aws.amazon.com/blogs/compute/building-an-aws-iot-core-device-using-aws-serverless-and-an-esp32)
