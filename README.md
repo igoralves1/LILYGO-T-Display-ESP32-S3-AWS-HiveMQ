@@ -14,6 +14,7 @@
 12. [MQTT overview](https://learning.postman.com/docs/sending-requests/mqtt-client/mqtt-client-overview/)
 13. [Arduino Client for MQTT](https://pubsubclient.knolleary.net/)
 14. [igoralves1/T-Display-S3/tree/main/firmware](https://github.com/igoralves1/T-Display-S3/tree/main/firmware)
+15. [Serial Monitor displays nothing. #126](https://github.com/Xinyuan-LilyGO/T-Display-S3/issues/126)
 
 
 ### Arduino setup for ESP32
