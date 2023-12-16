@@ -2,6 +2,8 @@
 #include <ArduinoJson.h>
 #include "WiFi.h"
 #include <PubSubClient.h>
+// #include <esp_task_wdt.h>
+
 
 const char* ssid = "Frontier5664";
 const char* password = "0546758114";
@@ -12,6 +14,9 @@ const int mqttPort = 1883;
 #define HIVEMQ_IOT_PUBLISH_TOPIC   "esp32/pub"
 #define HIVEMQ_IOT_SUBSCRIBE_TOPIC "esp32/sub"
  
+//3 seconds WDT
+// #define WDT_TIMEOUT 3
+
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -30,8 +35,6 @@ void connectHIVEMQ(){
     Serial.print(".");
   }
  
-
- 
   // Connect to the MQTT broker on the AWS endpoint we defined earlier
   client.setServer(mqttServer, mqttPort);
  
@@ -39,13 +42,7 @@ void connectHIVEMQ(){
   client.setCallback(messageHandler);
  
   Serial.println("Connecting to HIVEMQ IOT");
- 
-  while (!client.connect(THINGNAME))
-  {
-    Serial.print(".");
-    delay(100);
-  }
- 
+  
   if (!client.connected())
   {
     Serial.println("HIVEMQ Timeout!");
@@ -82,11 +79,31 @@ const int relay4 = 16;
 void setup() {
   Serial.begin(115200);
   Serial.println("Setup()");
+
+  // esp_task_wdt_init(WDT_TIMEOUT, true); //enable panic so ESP32 restarts
+  // esp_task_wdt_add(NULL); //add current thread to WDT watch
+
   connectHIVEMQ();
   pinMode(relay4, OUTPUT);
 }
 
+// int j = 0;
+// int last = millis();
+
 void loop() {
+
+  // resetting WDT every 2s, 5 times only
+  // if (millis() - last >= 2000 && j < 5) {
+  //     Serial.println("Resetting WDT...");
+  //     publishMessage("Resetting WDT...", j); 
+  //     esp_task_wdt_reset();
+  //     last = millis();
+  //     j++;
+  //     if (j == 5) {
+  //       Serial.println("Stopping WDT reset. CPU should reboot in 3s");
+  //       publishMessage("Stopping WDT reset. CPU should reboot in 3s", j);
+  //     }
+  // }
 
   Serial.println("Desliga o motor");
   digitalWrite(relay4, HIGH);
@@ -105,7 +122,7 @@ void loop() {
   
   Serial.println("Liga o motor");
   digitalWrite(relay4, LOW);
-  for(int i = 1; i<=15; i++){
+  for(int i = 1; i<=20; i++){
     Serial.println(i);
 
     publishMessage("Motor Ligado", i);  
